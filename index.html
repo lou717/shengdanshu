@@ -1,192 +1,262 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎄 给你的圣诞树</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: linear-gradient(to bottom, #0c1445, #1a237e);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: "Arial", sans-serif;
-      overflow: hidden;
-      color: white;
-      text-align: center;
-      position: relative;
-    }
-
-    .container {
-      z-index: 10;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 1.8em;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-    }
-
-    .tree {
-      position: relative;
-      width: 200px;
-      height: 300px;
-      margin: 0 auto;
-    }
-
-    .triangle {
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 100px solid transparent;
-      border-right: 100px solid transparent;
-      border-bottom: 80px solid #0d5e20;
-      top: 0;
-    }
-    .triangle:nth-child(2) {
-      top: 60px;
-      border-bottom-color: #1a7a30;
-      transform: scale(1.1);
-    }
-    .triangle:nth-child(3) {
-      top: 120px;
-      border-bottom-color: #2d9a40;
-      transform: scale(1.2);
-    }
-
-    .trunk {
-      position: absolute;
-      width: 30px;
-      height: 50px;
-      background: #8B4513;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 240px;
-    }
-
-    .star {
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2em;
-      color: gold;
-      text-shadow: 0 0 10px yellow;
-      animation: twinkle 1.5s infinite alternate;
-    }
-
-    .light {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      animation: blink 2s infinite;
-    }
-
-    @keyframes twinkle {
-      from { opacity: 0.6; }
-      to { opacity: 1; transform: translateX(-50%) scale(1.2); }
-    }
-
-    @keyframes blink {
-      0%, 45% { opacity: 0.3; }
-      50%, 100% { opacity: 1; transform: scale(1.2); }
-    }
-
-    .snowflake {
-      position: absolute;
-      color: white;
-      font-size: 1.2em;
-      user-select: none;
-      pointer-events: none;
-      opacity: 0.8;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
-      }
-    }
-
-    .message {
-      margin-top: 30px;
-      font-size: 1.1em;
-      max-width: 300px;
-      line-height: 1.5;
-    }
-  </style>
+    <title>3D Christmas Gift for 李赛赛</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            font-family: 'Arial', sans-serif;
+        }
+        
+        #scene {
+            width: 100vw;
+            height: 100vh;
+            margin-top: 60px;
+            position: relative;
+        }
+        
+        .gift-box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+            transition: transform 2s ease-in-out;
+            top: 50%;
+            left: 50%;
+            margin: -100px 0 0 -100px;
+        }
+        
+        .gift-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid #8B4513;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            text-align: center;
+            backface-visibility: hidden;
+            overflow: hidden;
+        }
+        
+        .front { 
+            background: linear-gradient(45deg, #c83b3b, #e60000); 
+            transform: translateZ(100px); 
+        }
+        .back { 
+            background: linear-gradient(45deg, #c83b3b, #e60000); 
+            transform: rotateY(180deg) translateZ(100px); 
+        }
+        .right { 
+            background: linear-gradient(45deg, #a62e2e, #c83b3b); 
+            transform: rotateY(90deg) translateZ(100px); 
+        }
+        .left { 
+            background: linear-gradient(45deg, #a62e2e, #c83b3b); 
+            transform: rotateY(-90deg) translateZ(100px); 
+        }
+        .top { 
+            background: linear-gradient(45deg, #e60000, #ff3333); 
+            transform: rotateX(90deg) translateZ(100px); 
+        }
+        .bottom { 
+            background: linear-gradient(45deg, #8B0000, #a60000); 
+            transform: rotateX(-90deg) translateZ(100px); 
+        }
+        
+        .ribbon {
+            position: absolute;
+            background: #ffd700;
+            transform-style: preserve-3d;
+            z-index: 10;
+        }
+        
+        .vertical-ribbon {
+            width: 20px;
+            height: 200px;
+            top: 0;
+            left: 90px;
+            transform: translateZ(1px);
+        }
+        
+        .horizontal-ribbon {
+            width: 200px;
+            height: 20px;
+            top: 90px;
+            left: 0;
+            transform: translateZ(1px);
+        }
+        
+        .gift-top {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 215, 0, 0.3);
+            border: 2px dashed #ffd700;
+            top: -110px;
+            left: -110px;
+            border-radius: 50%;
+            animation: rotate 5s linear infinite;
+            z-index: 5;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gift-top img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%; /* 使图片变圆 */
+        }
+        
+        .photo-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 图片铺满容器 */
+            object-position: center;
+        }
+        
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 28px;
+            text-align: center;
+            z-index: 100;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            animation: pulse 2s infinite;
+        }
+        
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 20px;
+            top: -20px;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+        
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #ffd700;
+            font-size: 36px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            z-index: 10;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎄 圣诞快乐，我的爱！</h1>
-    <div class="tree" id="tree">
-      <div class="star">★</div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="triangle"></div>
-      <div class="trunk"></div>
+    <div class="title">🎄 Merry Christmas 李赛赛! 🎄</div>
+    <div id="scene">
+        <div class="gift-box" id="gift">
+            <div class="gift-top">
+                <img src="https://raw.githubusercontent.com/lou717/shengdanshu/main/public/图片4.jpg" class="photo" alt="Photo 0">
+            </div>
+            <div class="gift-face front">
+                <div class="photo-container">
+                    <img src="https://raw.githubusercontent.com/lou717/shengdanshu/main/public/图片1.jpg" class="photo" alt="Photo 1">
+                </div>
+            </div>
+            <div class="gift-face back">
+                <div class="photo-container">
+                    <img src="https://raw.githubusercontent.com/lou717/shengdanshu/main/public/图片2.jpg" class="photo" alt="Photo 2">
+                </div>
+            </div>
+            <div class="gift-face right">
+                <div class="photo-container">
+                    <img src="https://raw.githubusercontent.com/lou717/shengdanshu/main/public/图片3.jpg" class="photo" alt="Photo 3">
+                </div>
+            </div>
+            <div class="gift-face left">
+                <div class="photo-container">
+                    <img src="https://raw.githubusercontent.com/lou717/shengdanshu/main/public/图片4.jpg" class="photo" alt="Photo 4">
+                </div>
+            </div>
+            <div class="gift-face top">
+                <div class="photo-container">
+                    <img src="https://raw.githubusercontent.com/lou717/shengdanshu/main/public/图片5.jpg" class="photo" alt="Photo 5">
+                </div>
+            </div>
+            <div class="gift-face bottom">
+                <div class="photo-container">
+                    <img src="https://raw.githubusercontent.com/lou717/shengdanshu/main/public/图片4.jpg" class="photo" alt="Photo 6">
+                </div>
+            </div>
+            <div class="ribbon vertical-ribbon"></div>
+            <div class="ribbon horizontal-ribbon"></div>
+        </div>
+        <div class="message">Special Gift for 李赛赛<br>🎁 圣诞节快乐! 🎁</div>
     </div>
-    <div class="message">
-      愿这棵小树，照亮我们的节日<br>
-      更愿你每天都被爱包围 ❤️
-    </div>
-  </div>
 
-  <script>
-    // 随机生成彩灯
-    const tree = document.getElementById('tree');
-    const colors = ['#ff4136', '#0074d9', '#2ecc40', '#ffdc00', '#b10dc9', '#ff851b'];
-    for (let i = 0; i < 25; i++) {
-      const light = document.createElement('div');
-      light.className = 'light';
-      light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      light.style.left = (Math.random() * 180 + 10) + 'px';
-      light.style.top = (Math.random() * 250 + 20) + 'px';
-      light.style.animationDelay = (Math.random() * 2) + 's';
-      tree.appendChild(light);
-    }
-
-    // 飘雪效果
-    function createSnow() {
-      const snowflakes = ['❄', '❅', '❆'];
-      const container = document.body;
-      for (let i = 0; i < 40; i++) {
-        const flake = document.createElement('div');
-        flake.className = 'snowflake';
-        flake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
-        flake.style.left = Math.random() * 100 + 'vw';
-        flake.style.opacity = Math.random() * 0.5 + 0.3;
-        flake.style.fontSize = (Math.random() * 1 + 0.8) + 'em';
-        flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
-        flake.style.animationDelay = Math.random() * 5 + 's';
-        container.appendChild(flake);
-      }
-    }
-
-    window.onload = createSnow;
-
-    // 点击树会闪一下爱心
-    tree.addEventListener('click', (e) => {
-      const heart = document.createElement('div');
-      heart.innerText = '❤️';
-      heart.style.position = 'fixed';
-      heart.style.left = e.clientX + 'px';
-      heart.style.top = e.clientY + 'px';
-      heart.style.fontSize = '2em';
-      heart.style.pointerEvents = 'none';
-      heart.style.zIndex = '100';
-      heart.style.animation = 'blink 0.8s forwards';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 800);
-    });
-  </script>
+    <script>
+        // 快速旋转礼物盒
+        const gift = document.getElementById('gift');
+        let rotation = 0;
+        
+        setInterval(() => {
+            rotation += 5; // 增加旋转速度
+            gift.style.transform = `rotateY(${rotation}deg)`;
+        }, 30); // 减少延迟时间
+        
+        // 创建雪花效果
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄';
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 5 + 5 + 's';
+            snowflake.style.opacity = Math.random();
+            document.body.appendChild(snowflake);
+            
+            // 移除雪花元素以避免内存泄漏
+            setTimeout(() => {
+                snowflake.remove();
+            }, 10000);
+        }
+        
+        // 每100毫秒创建一个雪花
+        setInterval(createSnowflake, 100);
+        
+        // 点击礼物展开
+        gift.addEventListener('click', () => {
+            gift.style.transition = 'transform 3s ease-in-out';
+            gift.style.transform = 'rotateY(360deg) translateZ(200px)';
+        });
+    </script>
 </body>
 </html>
