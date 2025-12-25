@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎄 给你的圣诞树</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(to bottom, #0c1445, #1a237e);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Arial", sans-serif;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .container {
+      z-index: 10;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    }
+
+    .tree {
+      position: relative;
+      width: 200px;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    .triangle {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 80px solid #0d5e20;
+      top: 0;
+    }
+    .triangle:nth-child(2) {
+      top: 60px;
+      border-bottom-color: #1a7a30;
+      transform: scale(1.1);
+    }
+    .triangle:nth-child(3) {
+      top: 120px;
+      border-bottom-color: #2d9a40;
+      transform: scale(1.2);
+    }
+
+    .trunk {
+      position: absolute;
+      width: 30px;
+      height: 50px;
+      background: #8B4513;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 240px;
+    }
+
+    .star {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2em;
+      color: gold;
+      text-shadow: 0 0 10px yellow;
+      animation: twinkle 1.5s infinite alternate;
+    }
+
+    .light {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.6; }
+      to { opacity: 1; transform: translateX(-50%) scale(1.2); }
+    }
+
+    @keyframes blink {
+      0%, 45% { opacity: 0.3; }
+      50%, 100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .snowflake {
+      position: absolute;
+      color: white;
+      font-size: 1.2em;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    .message {
+      margin-top: 30px;
+      font-size: 1.1em;
+      max-width: 300px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎄 圣诞快乐，我的爱！</h1>
+    <div class="tree" id="tree">
+      <div class="star">★</div>
+      <div class="triangle"></div>
+      <div class="triangle"></div>
+      <div class="triangle"></div>
+      <div class="trunk"></div>
+    </div>
+    <div class="message">
+      愿这棵小树，照亮我们的节日<br>
+      更愿你每天都被爱包围 ❤️
+    </div>
+  </div>
+
+  <script>
+    // 随机生成彩灯
+    const tree = document.getElementById('tree');
+    const colors = ['#ff4136', '#0074d9', '#2ecc40', '#ffdc00', '#b10dc9', '#ff851b'];
+    for (let i = 0; i < 25; i++) {
+      const light = document.createElement('div');
+      light.className = 'light';
+      light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      light.style.left = (Math.random() * 180 + 10) + 'px';
+      light.style.top = (Math.random() * 250 + 20) + 'px';
+      light.style.animationDelay = (Math.random() * 2) + 's';
+      tree.appendChild(light);
+    }
+
+    // 飘雪效果
+    function createSnow() {
+      const snowflakes = ['❄', '❅', '❆'];
+      const container = document.body;
+      for (let i = 0; i < 40; i++) {
+        const flake = document.createElement('div');
+        flake.className = 'snowflake';
+        flake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+        flake.style.left = Math.random() * 100 + 'vw';
+        flake.style.opacity = Math.random() * 0.5 + 0.3;
+        flake.style.fontSize = (Math.random() * 1 + 0.8) + 'em';
+        flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        flake.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(flake);
+      }
+    }
+
+    window.onload = createSnow;
+
+    // 点击树会闪一下爱心
+    tree.addEventListener('click', (e) => {
+      const heart = document.createElement('div');
+      heart.innerText = '❤️';
+      heart.style.position = 'fixed';
+      heart.style.left = e.clientX + 'px';
+      heart.style.top = e.clientY + 'px';
+      heart.style.fontSize = '2em';
+      heart.style.pointerEvents = 'none';
+      heart.style.zIndex = '100';
+      heart.style.animation = 'blink 0.8s forwards';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 800);
+    });
+  </script>
+</body>
+</html>
